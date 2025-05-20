@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIVA Laundry - Home</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+   <nav>
+    <div class="logo">
+        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+        AIVA Laundry
+    </div>
+    <div class="hamburger">☰</div>
+    <div class="nav-links">
+        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+        <div class="dropdown">
+            {% if current_user.is_authenticated %}
+                <button class="dropbtn">Account</button>
+                <div class="dropdown-content">
+                    <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+                    <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+                </div>
+            {% else %}
+                <button class="dropbtn">Account</button>
+                <div class="dropdown-content">
+                    <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+                    <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+    <section class="hero">
+        <h1 class="welcome-text">Welcome to AIVA Laundry and Detergent Services</h1>
+        <p class="tagline">Clean Clothes, Clear Minds</p>
+        <p>AIVA Laundry and Detergent Services is your trusted partner, offering high-quality laundry solutions and detergent supplies for individuals and businesses. We use state-of-the-art equipment and eco-friendly practices to ensure clean, fresh clothes every time.</p>
+        <p>Our services include laundry (wash, dry, fold, iron) and detergent supply (wholesale and retail). Experience convenience and reliability with us!</p>
+        <a href="/order" class="cta-button">Order Now</a>
+    </section>
+    <footer class="animated-footer">
+        <p>© 2025 AIVA Laundry. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

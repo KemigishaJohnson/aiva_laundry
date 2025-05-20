@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIVA Laundry - Order</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+        AIVA Laundry
+    </div>
+    <div class="hamburger">☰</div>
+    <div class="nav-links">
+        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+        {% if current_user.is_authenticated %}
+            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+        {% else %}
+            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+        {% endif %}
+    </div>
+</nav>
+    <section class="order-section">
+        <h1>Place Your Order</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if receipt_file %}
+            <p><a href="{{ url_for('download_receipt', filename=receipt_file) }}">Download Receipt</a></p>
+        {% endif %}
+        <form method="POST">
+            <select name="service" required>
+                <option value="">Select Laundry Service</option>
+                <option value="Wash">Wash</option>
+                <option value="Dry">Dry</option>
+                <option value="Fold">Fold</option>
+                <option value="Iron">Iron</option>
+            </select>
+            <select name="detergent" required>
+                <option value="">Select Detergent</option>
+                <option value="Laundry Detergent">Laundry Detergent</option>
+                <option value="Fabric Softener">Fabric Softener</option>
+                <option value="Stain Remover">Stain Remover</option>
+                <option value="Hand Wash">Hand Wash</option>
+            </select>
+            <select name="payment_method" required>
+                <option value="">Select Payment Option</option>
+                <option value="Online">Secure Online Payment</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <button type="submit">Order Now</button>
+        </form>
+    </section>
+    <footer class="animated-footer">
+        <p>© 2025 AIVA Laundry. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

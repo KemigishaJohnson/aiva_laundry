@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIVA Laundry - Contact Us</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav>
+    <div class="logo">
+        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+        AIVA Laundry
+    </div>
+    <div class="hamburger">☰</div>
+    <div class="nav-links">
+        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+        {% if current_user.is_authenticated %}
+            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+        {% else %}
+            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+        {% endif %}
+    </div>
+</nav>
+    <section class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Phone: +256 783 747-256</p>
+        <p>Phone: +256 705 152-658</p>
+        <p>Email: info@aivalaundry.com</p>
+        <p>Location: Plot 123, Main Street, Mbale City</p>
+    </section>
+    <section class="form-section">
+        <div class="form-card">
+            <h1>Contact Us</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+    <footer class="animated-footer">
+        <p>© 2025 AIVA Laundry. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>

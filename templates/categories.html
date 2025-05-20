@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIVA Laundry - Categories</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+   <nav>
+    <div class="logo">
+        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+        AIVA Laundry
+    </div>
+    <div class="hamburger">☰</div>
+    <div class="nav-links">
+        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+        {% if current_user.is_authenticated %}
+            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+        {% else %}
+            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+        {% endif %}
+    </div>
+</nav>
+    <section class="categories-section">
+        <h1>Our Categories</h1>
+        <div class="category-cards">
+            <h2>Soap Categories</h2>
+            <div class="category-card">
+                <h3>Laundry Detergent</h3>
+                <p>For washing clothes, available in various quantities.</p>
+            </div>
+            <div class="category-card">
+                <h3>Fabric Softener</h3>
+                <p>To reduce static cling and freshen clothes.</p>
+            </div>
+            <div class="category-card">
+                <h3>Stain Remover</h3>
+                <p>For pre-treating tough stains.</p>
+            </div>
+            <div class="category-card">
+                <h3>Hand Wash</h3>
+                <p>Mild soap for hand washing delicate items.</p>
+            </div>
+            {% if items %}
+                {% for item in items %}
+                    <div class="category-card">
+                        <h3>{{ item[0] }}</h3>
+                        <p>{{ item[1] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No additional items available.</p>
+            {% endif %}
+            <h2>Online Ordering Process</h2>
+            <div class="category-card">
+                <h3>Place Order</h3>
+                <p>Visit our website or social media platforms.</p>
+            </div>
+            <div class="category-card">
+                <h3>Select Services</h3>
+                <p>Choose laundry services or detergent products.</p>
+            </div>
+            <div class="category-card">
+                <h3>Payment Options</h3>
+                <p>Secure online payment or cash on delivery.</p>
+            </div>
+            <div class="category-card">
+                <h3>Delivery</h3>
+                <p>Timely delivery of clean laundry or detergent products.</p>
+            </div>
+        </div>
+    </section>
+    <footer class="animated-footer">
+        <p>© 2025 AIVA Laundry. All rights reserved.</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
