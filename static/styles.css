@@ -699,9 +699,10 @@ input:focus, select:focus, textarea:focus {
         display: flex;
         transform: translateX(0);
     }
-    .hamburger {
-        display: block;
-        cursor: pointer;
+    nav .hamburger {
+        display: block !important;
+        background-color: transparent;
+        padding: 0.5rem;
     }
     .nav-links a {
         font-size: 1.5rem;
