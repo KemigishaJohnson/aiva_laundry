@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIVA Laundry - 404 Not Found</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css?v=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
 </head>
 <body>
     <nav>
-         <div class="logo">
-              <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
-              AIVA Laundry
-          </div>
+        <div class="logo">
+            <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+            AIVA Laundry
+        </div>
         <div class="hamburger">☰</div>
         <div class="nav-links">
             <a href="/">Home</a>
@@ -25,6 +26,7 @@
             {% else %}
                 <a href="/user/login">Login</a>
                 <a href="/user/register">Register</a>
+                <a href="/admin/login">Admin Login</a>
             {% endif %}
         </div>
     </nav>
@@ -33,9 +35,9 @@
         <p>Sorry, the page you’re looking for doesn’t exist.</p>
         <p>Try going back to the <a href="/">Home page</a>.</p>
     </section>
-    <footer>
+    <footer class="animated-footer">
         <p>© 2025 AIVA Laundry. All rights reserved.</p>
     </footer>
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v=1"></script>
 </body>
 </html>

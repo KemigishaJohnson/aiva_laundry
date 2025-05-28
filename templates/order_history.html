@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIVA Laundry - User Registration</title>
+    <title>AIVA Laundry - Order History</title>
     <link rel="stylesheet" href="/static/styles.css?v=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
 </head>
@@ -30,23 +30,39 @@
             {% endif %}
         </div>
     </nav>
-    <section class="form-section">
-        <div class="form-card">
-            <h1>User Registration</h1>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <p class="{{ category }}">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <form method="POST">
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
-            <p class="register-link">Already have an account? <a href="/user/login">Login here</a>.</p>
-        </div>
+    <section class="table-section">
+        <h1>Order History</h1>
+        {% if order %}
+            <table class="order-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Service</th>
+                    <th>Detergent</th>
+                    <th>User Name</th>
+                    <th>Telephone</th>
+                    <th>Region</th>
+                    <th>Email</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Delivery Method</th>
+                </tr>
+                <tr>
+                    <td>{{ order['id'] }}</td>
+                    <td>{{ order['service'] }}</td>
+                    <td>{{ order['detergent'] }}</td>
+                    <td>{{ order['user_name'] }}</td>
+                    <td>{{ order['telephone'] }}</td>
+                    <td>{{ order['region'] }}</td>
+                    <td>{{ order['email'] }}</td>
+                    <td>{{ order['payment_method'] }}</td>
+                    <td>{{ order['status'] }}</td>
+                    <td>{{ order['delivery_method'] }}</td>
+                </tr>
+            </table>
+            <a href="{{ url_for('download_receipt', filename='receipt_' + order['id']|string + '.pdf') }}" class="cta-button">Download Receipt</a>
+        {% else %}
+            <p>No order details found.</p>
+        {% endif %}
     </section>
     <footer class="animated-footer">
         <p>© 2025 AIVA Laundry. All rights reserved.</p>

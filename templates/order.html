@@ -4,30 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIVA Laundry - Order</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css?v=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
 </head>
 <body>
-  <nav>
-    <div class="logo">
-        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
-        AIVA Laundry
-    </div>
-    <div class="hamburger">☰</div>
-    <div class="nav-links">
-        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
-        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
-        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
-        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
-        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
-        {% if current_user.is_authenticated %}
-            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
-            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
-        {% else %}
-            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
-            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
-        {% endif %}
-    </div>
-</nav>
+    <nav>
+        <div class="logo">
+            <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+            AIVA Laundry
+        </div>
+        <div class="hamburger">☰</div>
+        <div class="nav-links">
+            <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+            <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+            <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+            <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+            <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+            {% if current_user.is_authenticated %}
+                <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+                <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+            {% else %}
+                <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+                <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+                <a href="/admin/login" class="{{ 'active' if request.path == '/admin/login' else '' }}">Admin Login</a>
+            {% endif %}
+        </div>
+    </nav>
     <section class="order-section">
         <h1>Place Your Order</h1>
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -37,36 +39,56 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        {% if receipt_file %}
-            <p><a href="{{ url_for('download_receipt', filename=receipt_file) }}">Download Receipt</a></p>
-        {% endif %}
         <form method="POST">
-            <select name="service" required>
-                <option value="">Select Laundry Service</option>
-                <option value="Wash">Wash</option>
-                <option value="Dry">Dry</option>
-                <option value="Fold">Fold</option>
-                <option value="Iron">Iron</option>
-            </select>
-            <select name="detergent" required>
-                <option value="">Select Detergent</option>
-                <option value="Laundry Detergent">Laundry Detergent</option>
-                <option value="Fabric Softener">Fabric Softener</option>
-                <option value="Stain Remover">Stain Remover</option>
-                <option value="Hand Wash">Hand Wash</option>
-            </select>
-            <select name="payment_method" required>
-                <option value="">Select Payment Option</option>
-                <option value="Online">Secure Online Payment</option>
-                <option value="Cash on Delivery">Cash on Delivery</option>
-            </select>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <button type="submit">Order Now</button>
+            <div class="form-group">
+                <label for="service">Select Service:</label>
+                <select name="service" id="service" required>
+                    <option value="" disabled selected>Select a service</option>
+                    <option value="Wash & Fold (50 UGX)">Wash & Fold (50 UGX)</option>
+                    <option value="Wash & Iron (70 UGX)">Wash & Iron (70 UGX)</option>
+                    <option value="Dry Cleaning (100 UGX)">Dry Cleaning (100 UGX)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="detergent">Select Detergent:</label>
+                <select name="detergent" id="detergent" required>
+                    <option value="" disabled selected>Select a detergent</option>
+                    <option value="Ariel (20 UGX)">Ariel (20 UGX)</option>
+                    <option value="Omo (15 UGX)">Omo (15 UGX)</option>
+                    <option value="Sunlight (10 UGX)">Sunlight (10 UGX)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="user_name">Full Name:</label>
+                <input type="text" name="user_name" id="user_name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <label for="telephone">Telephone:</label>
+                <input type="tel" name="telephone" id="telephone" placeholder="Your Phone Number" required>
+            </div>
+            <div class="form-group">
+                <label for="region">Region:</label>
+                <input type="text" name="region" id="region" placeholder="Your Region" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <label for="payment_method">Payment Method:</label>
+                <select name="payment_method" id="payment_method" required>
+                    <option value="" disabled selected>Select payment method</option>
+                    <option value="Mobile Money">Mobile Money</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Bank Card">Bank Card</option>
+                </select>
+            </div>
+            <button type="submit">Place Order</button>
         </form>
     </section>
     <footer class="animated-footer">
         <p>© 2025 AIVA Laundry. All rights reserved.</p>
     </footer>
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v=1"></script>
 </body>
 </html>

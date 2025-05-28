@@ -1,51 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Script loaded'); // Debug log
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const dropdowns = document.querySelectorAll('.dropdown');
 
-    // Hamburger menu toggle
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-        dropdowns.forEach(dropdown => dropdown.classList.remove('active')); // Close dropdowns
-    });
+    if (hamburger && navLinks) {
+        console.log('Hamburger and navLinks found'); // Debug log
+        hamburger.addEventListener('click', () => {
+            console.log('Hamburger clicked'); // Debug log
+            navLinks.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
 
-    // Close menu and dropdown when a link is clicked
-    document.querySelectorAll('.nav-links a, .dropdown-content a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('Nav link clicked'); // Debug log
                 navLinks.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-                setTimeout(() => {
-                    window.location.href = link.href;
-                }, 300); // Match CSS transition duration
-            }
+            });
         });
-    });
+    } else {
+        console.error('Hamburger or navLinks not found'); // Debug error
+    }
 
-    // Dropdown toggle on mobile
     dropdowns.forEach(dropdown => {
         const dropbtn = dropdown.querySelector('.dropbtn');
-        dropbtn.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
+        if (dropbtn) {
+            dropbtn.addEventListener('click', () => {
                 dropdown.classList.toggle('active');
-                // Close other dropdowns
-                dropdowns.forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) otherDropdown.classList.remove('active');
-                });
-            }
-        });
+            });
+        }
     });
 
-    // Close menu if clicking outside on mobile
-    document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768 && !navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-            navLinks.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-        }
+    const animateSections = document.querySelectorAll(
+        '.hero, .about-grid, .categories-section, .order-section, .table-section, .contact-info, .form-section, .section'
+    );
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add(index % 2 === 0 ? 'slide-in-left' : 'slide-in-right');
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateSections.forEach(section => {
+        observer.observe(section);
     });
 });

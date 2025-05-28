@@ -4,30 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIVA Laundry - Categories</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css?v=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
 </head>
 <body>
-   <nav>
-    <div class="logo">
-        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
-        AIVA Laundry
-    </div>
-    <div class="hamburger">☰</div>
-    <div class="nav-links">
-        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
-        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
-        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
-        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
-        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
-        {% if current_user.is_authenticated %}
-            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
-            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
-        {% else %}
-            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
-            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
-        {% endif %}
-    </div>
-</nav>
+    <nav>
+        <div class="logo">
+            <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+            AIVA Laundry
+        </div>
+        <div class="hamburger">☰</div>
+        <div class="nav-links">
+            <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+            <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+            <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+            <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+            <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+            {% if current_user.is_authenticated %}
+                <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+                <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+            {% else %}
+                <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+                <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+                <a href="/admin/login" class="{{ 'active' if request.path == '/admin/login' else '' }}">Admin Login</a>
+            {% endif %}
+        </div>
+    </nav>
     <section class="categories-section">
         <h1>Our Categories</h1>
         <div class="category-cards">
@@ -51,8 +53,11 @@
             {% if items %}
                 {% for item in items %}
                     <div class="category-card">
-                        <h3>{{ item[0] }}</h3>
-                        <p>{{ item[1] }}</p>
+                        <h3>{{ item[1] }}</h3> <!-- name -->
+                        <p>Price: {{ item[2] }} UGX</p> <!-- price -->
+                        {% if item[3] %}
+                            <img src="{{ item[3] }}" alt="{{ item[1] }}" style="max-width: 100px; height: auto;">
+                        {% endif %}
                     </div>
                 {% endfor %}
             {% else %}
@@ -80,6 +85,6 @@
     <footer class="animated-footer">
         <p>© 2025 AIVA Laundry. All rights reserved.</p>
     </footer>
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v=1"></script>
 </body>
 </html>

@@ -3,55 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIVA Laundry - Your Orders</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <title>AIVA Laundry - My Orders</title>
+    <link rel="stylesheet" href="/static/styles.css?v=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
 </head>
 <body>
     <nav>
-    <div class="logo">
-        <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
-        AIVA Laundry
-    </div>
-    <div class="hamburger">☰</div>
-    <div class="nav-links">
-        <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
-        <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
-        <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
-        <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
-        <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
-        {% if current_user.is_authenticated %}
-            <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
-            <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
-        {% else %}
-            <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
-            <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
-        {% endif %}
-    </div>
-</nav>
+        <div class="logo">
+            <img src="/static/logo.png" alt="AIVA Logo" style="height: 40px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
+            AIVA Laundry
+        </div>
+        <div class="hamburger">☰</div>
+        <div class="nav-links">
+            <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+            <a href="/about" class="{{ 'active' if request.path == '/about' else '' }}">About Us</a>
+            <a href="/order" class="{{ 'active' if request.path == '/order' else '' }}">Order</a>
+            <a href="/categories" class="{{ 'active' if request.path == '/categories' else '' }}">Categories</a>
+            <a href="/contact" class="{{ 'active' if request.path == '/contact' else '' }}">Contact Us</a>
+            {% if current_user.is_authenticated %}
+                <a href="/user/orders" class="{{ 'active' if request.path == '/user/orders' else '' }}">My Orders</a>
+                <a href="/logout" class="{{ 'active' if request.path == '/logout' else '' }}">Logout</a>
+            {% else %}
+                <a href="/user/login" class="{{ 'active' if request.path == '/user/login' else '' }}">Login</a>
+                <a href="/user/register" class="{{ 'active' if request.path == '/user/register' else '' }}">Register</a>
+                <a href="/admin/login" class="{{ 'active' if request.path == '/admin/login' else '' }}">Admin Login</a>
+            {% endif %}
+        </div>
+    </nav>
     <section class="table-section">
-        <h1>Your Orders</h1>
+        <h1>My Orders</h1>
         {% if orders %}
             <table class="order-table">
-                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Service</th>
+                    <th>Detergent</th>
+                    <th>User Name</th>
+                    <th>Telephone</th>
+                    <th>Region</th>
+                    <th>Email</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Delivery Method</th>
+                </tr>
+                {% for order in orders %}
                     <tr>
-                        <th>Order ID</th>
-                        <th>Item</th>
-                        <th>Payment Method</th>
-                        <th>Status</th>
-                        <th>Delivery Method</th>
+                        <td>{{ order['id'] }}</td>
+                        <td>{{ order['service'] }}</td>
+                        <td>{{ order['detergent'] }}</td>
+                        <td>{{ order['user_name'] }}</td>
+                        <td>{{ order['telephone'] }}</td>
+                        <td>{{ order['region'] }}</td>
+                        <td>{{ order['email'] }}</td>
+                        <td>{{ order['payment_method'] }}</td>
+                        <td>{{ order['status'] }}</td>
+                        <td>{{ order['delivery_method'] }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for order in orders %}
-                        <tr>
-                            <td>{{ order[0] }}</td>
-                            <td>{{ order[1] }}</td>
-                            <td>{{ order[2] }}</td>
-                            <td>{{ order[3] }}</td>
-                            <td>{{ order[4] or 'Not Set' }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
+                {% endfor %}
             </table>
         {% else %}
             <p>No orders found.</p>
@@ -60,6 +68,6 @@
     <footer class="animated-footer">
         <p>© 2025 AIVA Laundry. All rights reserved.</p>
     </footer>
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v=1"></script>
 </body>
 </html>
