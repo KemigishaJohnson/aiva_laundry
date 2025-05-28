@@ -50,7 +50,7 @@ def load_user(user_id):
 
 # Routes
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
 @app.route('/about')
